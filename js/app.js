@@ -40,15 +40,10 @@ const scrollToSection = function (e) {
 };
 
 // check if element hit the viewport
-const isInViewport = function (el) {
+const isInViewport = function (el, buffer) {
   const rect = el.getBoundingClientRect();
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <=
-      (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
+  // Add some buffer to make sure that element is within viewport
+  return rect.bottom >= buffer && rect.top <= buffer;
 };
 
 /**
@@ -78,7 +73,7 @@ const checkIfSectionInView = function () {
     window.addEventListener(
       'scroll',
       function (event) {
-        if (isInViewport(section)) {
+        if (isInViewport(section, 44)) {
           !section.classList.contains('your-active-class') &&
             section.classList.add('your-active-class');
         } else {
