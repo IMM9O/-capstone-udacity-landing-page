@@ -28,7 +28,7 @@ const sections = document.querySelectorAll('section');
  */
 const createNavbarListNode = function (id, name, callback) {
   const listNode = document.createElement('li');
-  listNode.innerHTML = `<a class="menu__link" href="#${id}" data-id="${id}">${name}</a>`;
+  listNode.innerHTML = `<a class="menu__link" id="nav-${id}" href="#${id}" data-id="${id}">${name}</a>`;
   return listNode;
 };
 
@@ -69,20 +69,23 @@ function createNavbar() {
 
 // Add class 'active' to section when near top of viewport
 const checkIfSectionInView = function () {
-  for (let section of sections) {
+  sections.forEach((section) => {
     window.addEventListener(
       'scroll',
       function (event) {
         if (isInViewport(section, 44)) {
           !section.classList.contains('your-active-class') &&
             section.classList.add('your-active-class');
+
+          document.getElementById(`nav-${section.id}`).classList.add('your-active-class');
         } else {
           section.classList.remove('your-active-class');
+          document.getElementById(`nav-${section.id}`).classList.remove('your-active-class');
         }
       },
       false
     );
-  }
+  });
 };
 /**
  * End Main Functions
@@ -96,9 +99,8 @@ const checkIfSectionInView = function () {
   // Set sections as active
   checkIfSectionInView();
   // Scroll to section on link click
-  navbarDiv.addEventListener('click', function(e) {
+  navbarDiv.addEventListener('click', function (e) {
     e.preventDefault();
     scrollToSection(e.target);
   });
 })();
-
